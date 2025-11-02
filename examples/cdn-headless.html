@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Headless Feedback - CDN Example</title>
+    <style>
+      /* Custom styles - Use any CSS framework or vanilla CSS */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+          sans-serif;
+        padding: 2rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: white;
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+
+      h1 {
+        color: #333;
+        margin-bottom: 1.5rem;
+      }
+
+      .feedback-trigger {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .feedback-trigger:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      }
+
+      .feedback-trigger:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .feedback-form {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 2px solid #e5e7eb;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #374151;
+      }
+
+      .required {
+        color: #ef4444;
+      }
+
+      textarea,
+      input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #e5e7eb;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        font-family: inherit;
+        transition: border-color 0.2s;
+      }
+
+      textarea:focus,
+      input:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+
+      textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 1rem;
+      }
+
+      button[type='submit'] {
+        flex: 1;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      button[type='submit']:hover:not(:disabled) {
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      }
+
+      button[type='submit']:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      button[type='reset'] {
+        flex: 1;
+        background: white;
+        color: #374151;
+        border: 2px solid #e5e7eb;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      button[type='reset']:hover:not(:disabled) {
+        background: #f9fafb;
+      }
+
+      .alert {
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .alert-error {
+        background: #fee2e2;
+        border: 1px solid #fecaca;
+        color: #991b1b;
+      }
+
+      .alert-success {
+        background: #d1fae5;
+        border: 1px solid #a7f3d0;
+        color: #065f46;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .spinner {
+        display: inline-block;
+        width: 1rem;
+        height: 1rem;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 0.8s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🎯 Headless Feedback (CDN)</h1>
+      <p style="color: #6b7280; margin-bottom: 1.5rem">
+        This example shows how to use the headless Pullreque.st feedback API with
+        the CDN bundle. You have complete control over the HTML and CSS.
+      </p>
+
+      <!-- Option 1: Simple trigger button -->
+      <button class="feedback-trigger" id="simple-trigger">
+        💬 Quick Feedback
+      </button>
+
+      <!-- Option 2: Custom form -->
+      <form class="feedback-form" id="feedback-form">
+        <h2 style="margin-bottom: 1rem; color: #333">Custom Feedback Form</h2>
+
+        <div id="alert-container"></div>
+
+        <div class="form-group">
+          <label for="message">
+            Your Message <span class="required">*</span>
+          </label>
+          <textarea
+            id="message"
+            name="message"
+            placeholder="Tell us what you think..."
+            required
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email (optional)</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="your@email.com"
+          />
+        </div>
+
+        <div class="button-group">
+          <button type="reset">Clear</button>
+          <button type="submit" id="submit-btn">
+            <span id="submit-text">Submit Feedback</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Load Pullreque.st Button SDK from CDN -->
+    <script src="https://pullreque.st/cdn/button.js"></script>
+
+    <script>
+      // AIDEV-NOTE: CDN Headless Usage Example
+      // Shows how to use createFeedbackClient for custom UI implementations
+
+      // Create headless feedback client
+      const feedbackClient = PullrequeStButton.createFeedbackClient({
+        projectKey: 'prj_pk_YOUR_PROJECT_KEY', // Replace with your project key
+        // endpoint: 'https://custom.endpoint.com/api/feedback', // Optional custom endpoint
+      })
+
+      // Simple trigger button example
+      document
+        .getElementById('simple-trigger')
+        .addEventListener('click', async () => {
+          const message = prompt('What feedback would you like to share?')
+          if (!message) return
+
+          try {
+            await feedbackClient.submit({ message })
+            alert('✅ Feedback submitted! Thank you!')
+          } catch (error) {
+            alert('❌ Failed to submit feedback: ' + error.message)
+          }
+        })
+
+      // Custom form example with full control
+      const form = document.getElementById('feedback-form')
+      const submitBtn = document.getElementById('submit-btn')
+      const submitText = document.getElementById('submit-text')
+      const alertContainer = document.getElementById('alert-container')
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault()
+
+        const message = document.getElementById('message').value.trim()
+        const email = document.getElementById('email').value.trim()
+
+        if (!message) return
+
+        // Show loading state
+        submitBtn.disabled = true
+        submitText.innerHTML =
+          '<span class="spinner"></span> Submitting...'
+        alertContainer.innerHTML = ''
+
+        try {
+          // Submit feedback using headless client
+          await feedbackClient.submit({
+            message,
+            userEmail: email || undefined,
+            meta: {
+              source: 'custom-form',
+              timestamp: new Date().toISOString(),
+            },
+          })
+
+          // Show success
+          alertContainer.innerHTML = `
+            <div class="alert alert-success">
+              ✅ Thank you! Your feedback has been submitted successfully.
+            </div>
+          `
+
+          // Reset form
+          form.reset()
+        } catch (error) {
+          // Show error
+          alertContainer.innerHTML = `
+            <div class="alert alert-error">
+              ❌ Failed to submit feedback: ${error.message}
+            </div>
+          `
+        } finally {
+          // Reset button state
+          submitBtn.disabled = false
+          submitText.textContent = 'Submit Feedback'
+        }
+      })
+
+      // Clear alerts on form reset
+      form.addEventListener('reset', () => {
+        alertContainer.innerHTML = ''
+      })
+    </script>
+  </body>
+</html>

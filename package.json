@@ -1,0 +1,82 @@
+{
+  "name": "@pullreque.st/button",
+  "version": "0.1.8",
+  "description": "Feedback button SDK for Pullreque.st",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "npm run build:esm && npm run build:umd",
+    "build:esm": "tsup src/index.ts src/react.tsx src/react/index.ts",
+    "build:umd": "esbuild src/umd.ts --bundle --outfile=dist/umd.js --global-name=PullrequeStButton --format=iife --external:react --external:react-dom",
+    "dev": "tsup src/index.ts src/react.tsx src/react/index.ts --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage",
+    "upload-cdn": "tsx --env-file=.env.local ./scripts/upload-to-cdn.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./react": {
+      "types": "./dist/react.d.ts",
+      "import": "./dist/react.mjs",
+      "require": "./dist/react.js"
+    },
+    "./react/headless": {
+      "types": "./dist/react/index.d.ts",
+      "import": "./dist/react/index.mjs",
+      "require": "./dist/react/index.js"
+    }
+  },
+  "keywords": [
+    "feedback",
+    "pullrequest",
+    "github"
+  ],
+  "author": "Pullreque.st",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/isolated-tech/feedback-button-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/isolated-tech/feedback-button-sdk/issues"
+  },
+  "homepage": "https://github.com/isolated-tech/feedback-button-sdk#readme",
+  "devDependencies": {
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vercel/blob": "^2.0.0",
+    "@vitejs/plugin-react": "^5.1.0",
+    "esbuild": "^0.25.11",
+    "happy-dom": "^20.0.10",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "tsup": "^8.0.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.0.0",
+    "vitest": "^4.0.6"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  }
+}
