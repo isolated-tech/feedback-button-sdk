@@ -17,7 +17,11 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
-    "upload-cdn": "tsx --env-file=.env.local ./scripts/upload-to-cdn.ts"
+    "upload-cdn": "tsx --env-file=.env.local ./scripts/upload-to-cdn.ts",
+    "release:patch": "npm version patch && git push --follow-tags",
+    "release:minor": "npm version minor && git push --follow-tags",
+    "release:major": "npm version major && git push --follow-tags",
+    "prepublishOnly": "npm run build && npm test"
   },
   "exports": {
     ".": {

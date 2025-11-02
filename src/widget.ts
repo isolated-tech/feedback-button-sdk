@@ -19,7 +19,6 @@ export class FeedbackWidget {
     private endpoint?: string
     private button: HTMLElement | null = null
     private modal: HTMLElement | null = null
-    private isOpen = false
 
     constructor(options: WidgetOptions) {
         this.projectKey = options.projectKey
@@ -359,12 +358,10 @@ export class FeedbackWidget {
     }
 
     private openModal() {
-        this.isOpen = true
         this.modal?.classList.add('open')
     }
 
     private closeModal() {
-        this.isOpen = false
         this.modal?.classList.remove('open')
         this.resetForm()
     }
