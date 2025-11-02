@@ -11,8 +11,8 @@ The feedback button SDK now supports **two modes**:
 
 ## Requirements
 
-- **React Headless Mode:** React 16.8 or later (hooks support required)
-- **Vanilla JS Headless Mode:** No dependencies required
+-   **React Headless Mode:** React 16.8 or later (hooks support required)
+-   **Vanilla JS Headless Mode:** No dependencies required
 
 ## Architecture
 
@@ -43,17 +43,17 @@ The feedback button SDK now supports **two modes**:
 
 ### For Developers
 
-- ✅ **Complete styling control** - Use any CSS framework
-- ✅ **Framework agnostic core** - Works everywhere
-- ✅ **Type-safe** - Full TypeScript support
-- ✅ **Smaller bundles** - No UI code when headless
-- ✅ **Easy integration** - Hooks for React, imperative API for vanilla JS
+-   ✅ **Complete styling control** - Use any CSS framework
+-   ✅ **Framework agnostic core** - Works everywhere
+-   ✅ **Type-safe** - Full TypeScript support
+-   ✅ **Smaller bundles** - No UI code when headless
+-   ✅ **Easy integration** - Hooks for React, imperative API for vanilla JS
 
 ### For End Users
 
-- ✅ **Consistent UX** - Matches your app's design system
-- ✅ **Better performance** - Less JavaScript when using headless
-- ✅ **Accessibility** - You control ARIA attributes and keyboard navigation
+-   ✅ **Consistent UX** - Matches your app's design system
+-   ✅ **Better performance** - Less JavaScript when using headless
+-   ✅ **Accessibility** - You control ARIA attributes and keyboard navigation
 
 ## File Structure
 
@@ -80,50 +80,55 @@ packages/button/
 ### React Headless (Recommended)
 
 ```tsx
-import { FeedbackProvider, useFeedback } from '@pullreque.st/button/react/headless'
+import {
+    FeedbackProvider,
+    useFeedback,
+} from '@pullreque.st/button/react/headless'
 
 // 1. Wrap app with provider
-<FeedbackProvider projectKey="prj_pk_...">
-  <App />
+;<FeedbackProvider projectKey="prj_pk_...">
+    <App />
 </FeedbackProvider>
 
 // 2. Use hook in any component
 function MyComponent() {
-  const { submit, isSubmitting, error } = useFeedback()
+    const { submit, isSubmitting, error } = useFeedback()
 
-  return (
-    <form onSubmit={(e) => {
-      e.preventDefault()
-      submit({ message: '...' })
-    }}>
-      {/* Your custom UI */}
-    </form>
-  )
+    return (
+        <form
+            onSubmit={e => {
+                e.preventDefault()
+                submit({ message: '...' })
+            }}
+        >
+            {/* Your custom UI */}
+        </form>
+    )
 }
 ```
 
 ### CDN Headless
 
 ```html
-<script src="https://pullreque.st/cdn/button.js"></script>
+<script src="https://www.pullreque.st/cdn/button.js"></script>
 <script>
-  const client = PullrequeStButton.createFeedbackClient({
-    projectKey: 'prj_pk_...'
-  })
+    const client = PullrequeStButton.createFeedbackClient({
+      projectKey: 'prj_pk_...'
+    })
 
-  await client.submit({ message: '...' })
+    await client.submit({ message: '...' })
 </script>
 ```
 
 ### Widget Mode (Backward Compatible)
 
 ```html
-<script src="https://pullreque.st/cdn/button.js"></script>
+<script src="https://www.pullreque.st/cdn/button.js"></script>
 <script>
-  PullrequeStButton.init({
-    projectKey: 'prj_pk_...',
-    position: 'bottom-right'
-  })
+    PullrequeStButton.init({
+        projectKey: 'prj_pk_...',
+        position: 'bottom-right',
+    })
 </script>
 ```
 
@@ -131,9 +136,9 @@ function MyComponent() {
 
 ```json
 {
-  ".": "Core headless SDK",
-  "./react": "Pre-styled React widget (old)",
-  "./react/headless": "Headless React hooks (new)"
+    ".": "Core headless SDK",
+    "./react": "Pre-styled React widget (old)",
+    "./react/headless": "Headless React hooks (new)"
 }
 ```
 
@@ -144,37 +149,42 @@ function MyComponent() {
 Context provider for headless React usage.
 
 **Props:**
-- `projectKey: string` - Required
-- `endpoint?: string` - Optional custom endpoint
-- `children: ReactNode` - Your app
+
+-   `projectKey: string` - Required
+-   `endpoint?: string` - Optional custom endpoint
+-   `children: ReactNode` - Your app
 
 ### useFeedback(options?)
 
 React hook for feedback submission with state management.
 
 **Options:**
-- `onBeforeSubmit?: (data) => data | Promise<data>`
-- `onSuccess?: (response) => void`
-- `onError?: (error) => void`
-- `autoCaptureUrl?: boolean` (default: true)
+
+-   `onBeforeSubmit?: (data) => data | Promise<data>`
+-   `onSuccess?: (response) => void`
+-   `onError?: (error) => void`
+-   `autoCaptureUrl?: boolean` (default: true)
 
 **Returns:**
-- `submit: (options) => Promise<void>`
-- `isSubmitting: boolean`
-- `error: Error | null`
-- `data: FeedbackResponse | null`
-- `reset: () => void`
+
+-   `submit: (options) => Promise<void>`
+-   `isSubmitting: boolean`
+-   `error: Error | null`
+-   `data: FeedbackResponse | null`
+-   `reset: () => void`
 
 ### createFeedbackClient(config)
 
 Factory for creating a headless client (vanilla JS or React).
 
 **Config:**
-- `projectKey: string` - Required
-- `endpoint?: string` - Optional
+
+-   `projectKey: string` - Required
+-   `endpoint?: string` - Optional
 
 **Returns:**
-- `submit(options): Promise<FeedbackResponse>`
+
+-   `submit(options): Promise<FeedbackResponse>`
 
 ## Design Decisions
 
@@ -210,41 +220,48 @@ See the `examples/` directory for:
 ### From Widget to Headless (React)
 
 **Before:**
+
 ```tsx
 import { FeedbackButton } from '@pullreque.st/button/react'
-<FeedbackButton projectKey="..." />
+;<FeedbackButton projectKey="..." />
 ```
 
 **After:**
-```tsx
-import { FeedbackProvider, useFeedback } from '@pullreque.st/button/react/headless'
 
-<FeedbackProvider projectKey="...">
-  <YourCustomButton />
+```tsx
+import {
+    FeedbackProvider,
+    useFeedback,
+} from '@pullreque.st/button/react/headless'
+
+;<FeedbackProvider projectKey="...">
+    <YourCustomButton />
 </FeedbackProvider>
 ```
 
 ### From Direct API to Headless
 
 **Before:**
+
 ```tsx
 import { submitFeedback } from '@pullreque.st/button'
 
 const handleSubmit = async () => {
-  await submitFeedback({
-    projectKey: '...',
-    message: '...'
-  })
+    await submitFeedback({
+        projectKey: '...',
+        message: '...',
+    })
 }
 ```
 
 **After:**
+
 ```tsx
 import { useFeedback } from '@pullreque.st/button/react/headless'
 
 const { submit } = useFeedback()
 const handleSubmit = async () => {
-  await submit({ message: '...' })
+    await submit({ message: '...' })
 }
 ```
 
@@ -261,13 +278,13 @@ npm run build
 
 ## Next Steps (Future Enhancements)
 
-- [ ] Asset upload helper for headless mode
-- [ ] Validation hooks (`useFormValidation`)
-- [ ] Vue/Svelte adapters
-- [ ] Form state persistence
-- [ ] Rate limit feedback to user
-- [ ] Optimistic UI updates
-- [ ] Retry logic for failed submissions
+-   [ ] Asset upload helper for headless mode
+-   [ ] Validation hooks (`useFormValidation`)
+-   [ ] Vue/Svelte adapters
+-   [ ] Form state persistence
+-   [ ] Rate limit feedback to user
+-   [ ] Optimistic UI updates
+-   [ ] Retry logic for failed submissions
 
 ---
 

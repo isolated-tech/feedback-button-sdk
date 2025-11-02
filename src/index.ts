@@ -33,7 +33,7 @@ export interface FeedbackError {
 export async function submitFeedback(
     options: FeedbackOptions
 ): Promise<FeedbackResponse> {
-    const endpoint = options.endpoint || 'https://pullreque.st/api/feedback'
+    const endpoint = options.endpoint || 'https://www.pullreque.st/api/feedback'
 
     const response = await fetch(endpoint, {
         method: 'POST',
@@ -69,7 +69,7 @@ export class FeedbackClient {
 
     constructor(projectKey: string, endpoint?: string) {
         this.projectKey = projectKey
-        this.endpoint = endpoint || 'https://pullreque.st/api/feedback'
+        this.endpoint = endpoint || 'https://www.pullreque.st/api/feedback'
     }
 
     async submit(options: Omit<FeedbackOptions, 'projectKey' | 'endpoint'>) {
